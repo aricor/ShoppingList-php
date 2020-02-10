@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="products.css">
+  </head>
+<body>
+
+  <div>
+    Products: <input id="query" type="text" name="id"> <br></br>
+    <button type="submit" name="search"  onclick="loadDoc()">Find</button>
+</div>
+
+<div id="products_search"></div>
+<div id="demo"></div>
+
+<script>
+function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      // TODO #2: add logic to iterate all the shopping list items of the responseText and present them on the screen
+      // WARNING: maybe you need to change localhost to your IP
+      var array = JSON.parse(this.responseText);
+      var htmlR = '<table border="1"';
+      for (var i = 0; i < array.length; i++) {
+        var product = array[i]; 
+        htmlR = htmlR + '<tr><td>' + product.id + '</td><td>' + product.name + '</td></tr>';
+      }
+      htmlR = htmlR + '</table>';
+      document.getElementById("products_search").innerHTML = '<div><b>' + htmlR + '</b>';
+    }
+  };
+  var query = document.getElementById("query").value;
+  xhttp.open("GET", "http://10.128.72.53/phpShoppingAPI/EcommerceAPI/src/php/ProductsController.php?query=" + query, true);
+  xhttp.send();
+}
+</script>
+
+</body>
+</html>

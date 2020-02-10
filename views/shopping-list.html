@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="shoppinglist.css">
+  </head>
+<body>
+<div>
+  <h2>Get Product Ajax Request Example</h2>
+  <button type="button" onclick="loadDoc()">Get Product</button>
+</div>
+
+<div id="demo"/>
+
+<script>
+function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      // TODO #2: add logic to iterate all the shopping list items of the responseText and present them on the screen
+      // WARNING: maybe you need to change localhost to your IP
+      var array = JSON.parse(this.responseText);
+      var htmlR = '<table border="1"';
+      for (var i = 0; i < array.length; i++) {
+        var product = array[i]; 
+        htmlR = htmlR + '<tr><td>' + product.name + '</td><td>' + product.quantity + '</td></tr>';
+      }
+      htmlR = htmlR + '</table>';
+      document.getElementById("demo").innerHTML = '<div><b>' + htmlR + '</b>';
+    }
+  };
+  xhttp.open("GET", "http://10.128.72.53/phpShoppingAPI/EcommerceAPI/src/php/ShoppingListController.php", true);
+  xhttp.send();
+}
+</script>
+
+</body>
+</html>
